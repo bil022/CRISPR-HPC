@@ -1,6 +1,6 @@
 # CRISPR-web
 
-Whole genome sgRNA design database for human and mouse. Due to large size of the files, the files are copied to http://enhancer.sdsc.edu/bli/CREST-web/
+Whole genome sgRNA design database for human and mouse. Due to the limites of file size, the bam files are uploaded to http://enhancer.sdsc.edu/bli/CREST-web/
 
 To re-generage the database, the whole genome sequence is needed, for example:
 ####	ref=hg19
