@@ -1,0 +1,62 @@
+  <form ng-submit="go4table()">
+  <table>
+  <tr>
+  <td><select ng-model="data.ref" name="ref">
+    <option ng-repeat="option in constant.refs" value="{{option.id}}">{{option.id}}</option> 
+  </select></td>
+  <td>
+    <div ng-show="data.ref.indexOf('hg')==0">
+    <select ng-model="data.chr">
+       <option ng-repeat="option in constant.hgChrs" value="{{option.id}}">{{option.id}}</option>
+    </select>
+    </div>
+    <div ng-show="data.ref.indexOf('mm')==0">
+    <select ng-model="data.chr">
+       <option ng-repeat="option in constant.mmChrs" value="{{option.id}}">{{option.id}}</option>
+    </select>
+    </div>
+    </td><td>
+    <input type="number" style="width:100px; text-align:right;" ng-model="data.s"/> 
+    </td><td>
+    <input type="number" style="width:100px; text-align:right;" ng-model="data.e"/> 
+    </td>
+  <td><select ng-model="data.method" name="method">
+    <option ng-repeat="option in constant.method" value="{{option.id}}">{{option.id}}</option> 
+  </select></td>
+    <td><I>{{(data.e-data.s)|number}} bp</I></td>
+    <td><input type="submit" value="go"/></td>
+    </tr>
+</table>
+<!-- I><table>
+    <tr>
+    <td>Search: <input style="width: 100px;" /></td>
+    <td>
+    <div ng-show="data.method=='Knockout'">#pairs: <input/></div>
+    <div ng-show="data.method=='Tiling'">bin: <input/></div>
+    </td>
+    <td>
+    <div ng-show="data.method=='Knockout'">dist: <input/></div>
+    <div ng-show="data.method=='Tiling'">step: <input/></div>
+    </td>
+    </tr>
+</table></I -->
+  </form>
+<!-- div ng-hide="help"> Help! </div -->
+  <div class="monosp" ng-show="php.table" align="left">
+<table>
+  <tr ng-repeat="x in php.table">
+    <td ng-repeat="y in php.cols">
+    {{ x[y] }}
+    </td>
+  </tr>
+</table>
+<p>{{ php.message }}</p>
+<div ng-show="php.table">
+<b><a target="download" href="table.php?ref={{data.ref}}&chr={{data.chr}}&s={{data.s}}&e={{data.e}}&method={{data.method}}">Download</a></b>
+<b ng-show="data.method=='gRNA'"><a target="ucsc_{{data.ref}}" href="https://genome.ucsc.edu/cgi-bin/hgTracks?hgS_doOtherUser=submit&hgS_otherUserName=bil022&hgS_otherUserSessionName=CRISPR_{{data.ref}}&position={{data.chr}}%3A{{data.s}}-{{data.e}}">ucsc</a></b>
+</div>
+<p>Offline: <I>{{ php.script }}</I></p>
+</div>
+<div ng-hide="php.table">
+  <span style="color:red">{{ php.err }}</span>
+</div>

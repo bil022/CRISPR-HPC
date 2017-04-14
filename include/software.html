@@ -1,0 +1,29 @@
+1. To build database, run: <b>./<a href="download/crest">crest</a> -p &lt;n&gt; -r &lt;ref&gt;</b>. <br/>
+For example: <b>./crest -p 4 -r hg19</b>, program will run 4 threads using hg19.fa as input.<br/>
+Outout:<pre>hg19.mm4: SAM format, it can be converted to hg19.bam combine with hg19.h.</pre>
+<p/>
+2. To view sgRNA, run: <b>samtools view &lt;ref&gt;.bam &lt;chr:s-e&gt;</b><br/>
+For example: <b>samtools view hg19.bam chr6:31132114-31138451</b>
+<br/><pre>
+Output format:
+ID:sgRNA	Strand	Chromosome	Start-pos	30	20M	*	0	0	Reference_sequence	IIIIIIIIIIIIIIIIIIII
+
+Example:
+ecd6fbc7a4:ACTTGCAGGTGGTCCGAGTG	16	chr6	31132633	30	20M	*	0	0	CACTCGGACCACCTGCAAGT	IIIIIIIIIIIIIIIIIIII
+f1e91a1b9a:TTCTGTCATTCACTTGCAGG	16	chr6	31132644	30	20M	*	0	0	CCTGCAAGTGAATGACAGAA	IIIIIIIIIIIIIIIIIIII
+6cc705b832:TAGAATGTCCAAGCAGAGTC	16	chr6	31132701	30	20M	*	0	0	GACTCTGCTTGGACATTCTA	IIIIIIIIIIIIIIIIIIII
+...
+</pre>
+<p/>
+3. Dual-crispr design, run: <b>samtools view &lt;chr:s-e&gt; | ./<a href="download/crest">crest</a> -p 4 -q &lt;chr:s-e&gt; -w &lt;win_size&gt; -s &lt;step_size&gt;</b><br/>
+For example: <b>samtools view hg19.bam chr6:31132114-31138451 | ./crest -q chr6:31132114-31138451 -w 200 -s 10</b>
+<br/><pre>
+Output format:
+Chromosome	SequenceA	CutA	StrandA	SequenceB	CutB	StrandB	Distance
+
+Example:
+chr6	ACTTGCAGGTGGTCCGAGTG	31132635	-	AAACTGAGGATGACTGGGTT	31136477	+	3842 bp
+chr6	TGGCTCCTCCAACTGCTCTA	31132821	-	GTTATTGGCTGAGCAGAAGT	31136787	-	3966 bp
+chr6	GGCTCGTAGCTCTCCGTCTT	31133262	-	CCCCCTAGGAGATTTTGTGC	31136953	+	3691 bp
+chr6	CACTTTGCTTCTCTTTTGAC	31133494	-	GCTTACACTTGTCGCCTTGA	31137163	+	3669 bp
+...</pre>

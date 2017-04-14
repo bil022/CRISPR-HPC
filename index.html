@@ -1,0 +1,36 @@
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>CREST web</title>
+    <link rel='stylesheet prefetch' href='css/angular-material.css'>
+    <link rel="stylesheet" href="css/style.css">
+    <style> div.monosp { font-family: "Courier New", Courier, monospace; } </style>
+  </head>
+  <body>
+    <div ng-controller="AppCtrl" class="sample tabsdemoDynamicTabs" layout="column" ng-cloak="" ng-app="MyApp">
+  <md-content class="md-padding">
+    <md-tabs md-selected="selectedIndex" md-border-bottom="" md-autoselect="" md-dynamic-height="true">
+      <md-tab ng-repeat="tab in tabs" ng-disabled="tab.disabled" label="{{tab.title}}">
+        <div class="demo-tab tab{{$index%4}}" style="padding: 25px; text-align: left;">
+          <div ng-include="tab.html"></div>
+          <br>
+        </div>
+      </md-tab>
+    </md-tabs>
+  </md-content>
+</div>
+
+<!--
+Copyright 2016 Google Inc. All Rights Reserved. 
+Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+-->
+<script src='js/angular.js'></script>
+<script src='js/angular-animate.min.js'></script>
+<script src='js/angular-route.min.js'></script>
+<script src='js/angular-aria.min.js'></script>
+<script src='js/angular-messages.min.js'></script>
+<script src='js/svg-assets-cache.js'></script>
+<script src='js/angular-material.js'></script>
+<script src="js/index.js"></script>
+  </body>
+</html>

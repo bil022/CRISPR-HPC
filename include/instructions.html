@@ -1,0 +1,34 @@
+<div class="monosp" align="left">
+Thanks for using our online query tools! You can quickly check single/dual gRNAs for the regions of interests. For batch processings or queries with variant parameters, please download the files and run locally.<p/><hr/>
+  <b>gRNA</b>:<I>Searching gRNA within selected region</I><br/>
+  <img src="png/gRNA.png" height="50px"/><br/>
+  Example:<br/> hg19 [chr6:31132114-31138451] 74 candidates
+<table>
+  <tr><th>#</th><th>Position</th><th>Sequence</th></tr>
+  <tr><td>1</td><td>31,132,630</td><td>ACTTGCAGGTGGTCCGAGTG-TGG</td></tr>
+  <tr><td>2</td><td>31,132,641</td><td>TTCTGTCATTCACTTGCAGG-TGG</td></tr>
+  <tr><td>3</td><td>31,132,698</td><td>TAGAATGTCCAAGCAGAGTC-AGG</td></tr>
+  <tr><td>...</td><td></td><td></td></tr>
+</table>
+local: <I>sqlite3 'select pos, strand, seq from chr6 where pos>=31132114 and pos<=31138451' hg19.db</I>
+<hr/>
+  <b>Knockout</b>:<I>Select pairs of gRNAs cross over the region of interests</I><br/>
+  <img src="png/knockout.png" height="50px"/><br/>
+  Example:<br/>
+<table>
+<tr><td>31132037-31132059: CCCAAGTGACCCTGAAACTA-AGG <--> 31138505+31138527: GGCCCCGCCCCCTGGATGGG-TGG	6468 bp</td></tr>
+<tr><td>31132001+31132023: TCTGATGTTGTGTGACCTTA-AGG <--> 31138562+31138584: GGATGTTTGCCTAATGGTGG-TGG	6561 bp</td></tr>
+<tr><td>31131938+31131960: TTTGGGAACTAGCCTATCAC-AGG <--> 31138604+31138626: GGAAAACCGGGAGACACAAC-TGG	6666 bp</td></tr>
+</table>
+local: <I>./crispr -b hg19.chr6.bin -q chr6:31132114-31138451 -d 10000 -p 10</I>
+<hr/>
+  <b>Tiling</b>:<I>Select pairs of gRNAs within the region of interests</I><br/>
+  <img src="png/tiling.png" height="50px"/><br/>
+Example:<br/>
+<table>
+<tr><td>31132630-31132652: ACTTGCAGGTGGTCCGAGTG-TGG <--> 31134829-31134851: TGTCCACTTTGTATAGCCGC-TGG	2199 bp</td></tr>
+<tr><td>31133182-31133204: GGTCCAGAGCCAACCCTTCC-AGG <--> 31136317+31136339: GTTGGCCACAGACAGTAGGG-AGG	3135 bp</td></tr>
+<tr><td>31133504+31133526: GCAAAGTGAGGGAGCACGCA-GGG <--> 31136782-31136804: GTTATTGGCTGAGCAGAAGT-TGG	3278 bp</td></tr>
+</table>
+local: <I>./crispr -i -b hg19.chr6.bin -q chr6:31132114-31138451 -x 250 -s 9</I>
+</div>
