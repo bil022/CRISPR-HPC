@@ -43,8 +43,8 @@
 			return array('chr'=>$data[0], 'cutA'=>$data[1], 'seqA'=>$data[2], 'strandA'=>$data[3], 'cutB'=>$data[4], 'seqB'=>$data[5], 'strandB'=>$data[6], 'dist'=>$data[7]);
 		};
 	}
-	$log="buf/$method.$ref.$s-$e.log";
-	$output="buf/$method.$ref.$s-$e.txt";
+	$log="buf/$method.$ref.$chr.$s-$e.log";
+	$output="buf/$method.$ref.$chr.$s-$e.txt";
 	
 	if (!file_exists($output)) {
 		system("$script 2> $log > $output");
