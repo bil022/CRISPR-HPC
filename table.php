@@ -1,6 +1,7 @@
 <?php
 	ini_set('display_errors', '1');
-	
+
+	$win=200; $step=10;	
 	if (isset($_POST['json'])) {
 		$json=true;
 		$data=json_decode($_POST['json']);
@@ -15,6 +16,8 @@
 		$chr=$_REQUEST['chr'];
 		$s=$_REQUEST['s'];
 		$e=$_REQUEST['e'];
+		if (isset($_REQUEST['win'])) $win=$_REQUEST['win'];
+		if (isset($_REQUEST['step'])) $step=$_REQUEST['step'];
 		$method=$_REQUEST['method'];
 	} else {
 		system("Hi, there!");
@@ -33,7 +36,7 @@
 			return array('chr'=>$data[3], 'start'=>$data[4], 'end'=>$data[4]+20, 'seq'=>$data[1], 'strand'=>$strand);
 		};
 	} else {
-		$script="bin/samtools view bam/$ref.bam $chr:$s-$e | bin/crest -q $chr:$s-$e -w 200 -s 10";
+		$script="bin/samtools view bam/$ref.bam $chr:$s-$e | bin/crest -q $chr:$s-$e -w $win -s $step";
 		// chr6	ACTTGCAGGTGGTCCGAGTG	31132635	-	AAACTGAGGATGACTGGGTT	31136477	+	3842 bp
 		$cols=array('chr', 'seqA', 'cutA', 'strandA', 'seqB', 'cutB', 'strandB', 'dist');
 		$header=array('chr'=>'Chr', 'seqA'=>'SeqA', 'cutA'=>'CutA', 'strandA'=>'StrandA', 'seqB'=>'SeqB', 'cutB'=>'CutB', 'strandB'=>'StrandB', 'dist'=>'Dist');
@@ -43,8 +46,8 @@
 			return array('chr'=>$data[0], 'cutA'=>$data[1], 'seqA'=>$data[2], 'strandA'=>$data[3], 'cutB'=>$data[4], 'seqB'=>$data[5], 'strandB'=>$data[6], 'dist'=>$data[7]);
 		};
 	}
-	$log="buf/$method.$ref.$s-$e.log";
-	$output="buf/$method.$ref.$s-$e.txt";
+	$log="buf/$method.$ref.$chr.$s-$e.log";
+	$output="buf/$method.$ref.$chr.$s-$e.txt";
 	
 	if (!file_exists($output)) {
 		system("$script 2> $log > $output");
