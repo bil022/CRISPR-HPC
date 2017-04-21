@@ -1,4 +1,4 @@
-1. To build database, run: <b>./<a href="download/crest">crest</a> -p &lt;n&gt; -r &lt;ref&gt;</b>. <br/>
+1. To build database, run: <b>./<a href="bin/crest">crest</a> -p &lt;n&gt; -r &lt;ref&gt;</b>. <br/>
 For example: <b>./crest -p 4 -r hg19</b>, program will run 4 threads using hg19.fa as input.<br/>
 Outout:<pre>hg19.mm4: SAM format, it can be converted to hg19.bam combine with hg19.h.</pre>
 <p/>
@@ -15,7 +15,7 @@ f1e91a1b9a:TTCTGTCATTCACTTGCAGG	16	chr6	31132644	30	20M	*	0	0	CCTGCAAGTGAATGACAG
 ...
 </pre>
 <p/>
-3. Dual-crispr design, run: <b>samtools view &lt;chr:s-e&gt; | ./<a href="download/crest">crest</a> -p 4 -q &lt;chr:s-e&gt; -w &lt;win_size&gt; -s &lt;step_size&gt;</b><br/>
+3. Dual-crispr design, run: <b>samtools view &lt;chr:s-e&gt; | ./<a href="bin/crest">crest</a> -p 4 -q &lt;chr:s-e&gt; -w &lt;win_size&gt; -s &lt;step_size&gt;</b><br/>
 For example: <b>samtools view hg19.bam chr6:31132114-31138451 | ./crest -q chr6:31132114-31138451 -w 200 -s 10</b>
 <br/><pre>
 Output format:
