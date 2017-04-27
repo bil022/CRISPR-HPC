@@ -24,8 +24,15 @@
 		exit(-1);
 	}
 	
+	$samtools="bin/samtools";
+	$crest="bin/crest";
+	if (PHP_OS=='Darwin') {
+		$samtools.=".mac";
+		$crest.=".mac";
+	}
+	
 	if ($method=='sgRNA') {
-		$script="bin/samtools view bam/$ref.bam $chr:$s-$e";
+		$script="$samtools view bam/$ref.bam $chr:$s-$e";
 		// ecd6fbc7a4:ACTTGCAGGTGGTCCGAGTG	16	chr6	31132633	30	20M	*	0	0	CACTCGGACCACCTGCAAGT	IIIIIIIIIIIIIIIIIIII
 		$cols=array('chr', 'start', 'end', 'seq', 'strand');
 		// chr6	31132633		31132633	ACTTGCAGGTGGTCCGAGTG	+
@@ -38,7 +45,7 @@
 		$log="buf/$method.$ref.$chr.$s-$e.log";
 		$output="buf/$method.$ref.$chr.$s-$e.txt";
 	} else {
-		$script="bin/samtools view bam/$ref.bam $chr:$s-$e | bin/crest -q $chr:$s-$e -w $win -s $step";
+		$script="$samtools view bam/$ref.bam $chr:$s-$e | $crest -q $chr:$s-$e -w $win -s $step";
 		// chr6	ACTTGCAGGTGGTCCGAGTG	31132635	-	AAACTGAGGATGACTGGGTT	31136477	+	3842 bp
 		$cols=array('chr', 'seqA', 'cutA', 'strandA', 'seqB', 'cutB', 'strandB', 'dist');
 		$header=array('chr'=>'Chr', 'seqA'=>'SeqA', 'cutA'=>'CutA', 'strandA'=>'StrandA', 'seqB'=>'SeqB', 'cutB'=>'CutB', 'strandB'=>'StrandB', 'dist'=>'Dist');
