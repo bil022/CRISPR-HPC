@@ -33,26 +33,26 @@
 	
 	if ($method=='sgRNA') {
 		$script="$samtools view bam/$ref.bam $chr:$s-$e";
-		// ecd6fbc7a4:ACTTGCAGGTGGTCCGAGTG	16	chr6	31132633	30	20M	*	0	0	CACTCGGACCACCTGCAAGT	IIIIIIIIIIIIIIIIIIII
-		$cols=array('chr', 'start', 'end', 'seq', 'strand');
-		// chr6	31132633		31132633	ACTTGCAGGTGGTCCGAGTG	+
-		$header=array('chr'=>'Shr', 'start'=>'Start', 'end'=>'End', 'seq'=>'Seq', 'strand'=>'Strand');
-		$dotdot=array('chr'=>'...', 'start'=>'', 'end'=>'', 'seq'=>'', 'strand'=>'');
+		// ecd6fbc7a4:ACTTGCAGGTGGTCCGAGTG	16	chr6	31132633	30	20M	*	0	0	CACTCGGACCACCTGCAAGT	IIIIIIIIIIIIIIIIIIII	EF:f:0.12345
+		$cols=array('chr', 'start', 'end', 'seq', 'strand', 'efficiency');
+		// chr6	31132633		31132633	ACTTGCAGGTGGTCCGAGTG	+	0.12345
+		$header=array('chr'=>'Shr', 'start'=>'Start', 'end'=>'End', 'seq'=>'Seq', 'strand'=>'Strand', 'efficiency'=>'Efficiency');
+		$dotdot=array('chr'=>'...', 'start'=>'', 'end'=>'', 'seq'=>'', 'strand'=>'', 'efficiency'=>'');
 		$parser=function($line) {
-			$data = preg_split("/[\s:]+/", $line); $strand='+'; if ($data[2]==16) $strand='-';
-			return array('chr'=>$data[3], 'start'=>$data[4], 'end'=>$data[4]+20, 'seq'=>$data[1], 'strand'=>$strand);
+			$data = preg_split("/[\s:]+/", $line); $strand='+'; if ($data[2]==16) $strand='-'; $ef=$data[14];
+			return array('chr'=>$data[3], 'start'=>$data[4], 'end'=>$data[4]+20, 'seq'=>$data[1], 'strand'=>$strand, 'efficiency'=>$ef);
 		};
 		$log="buf/$method.$ref.$chr.$s-$e.log";
 		$output="buf/$method.$ref.$chr.$s-$e.txt";
 	} else {
 		$script="$samtools view bam/$ref.bam $chr:$s-$e | $crest -q $chr:$s-$e -w $win -s $step";
-		// chr6	ACTTGCAGGTGGTCCGAGTG	31132635	-	AAACTGAGGATGACTGGGTT	31136477	+	3842 bp
-		$cols=array('chr', 'seqA', 'cutA', 'strandA', 'seqB', 'cutB', 'strandB', 'dist');
-		$header=array('chr'=>'Chr', 'seqA'=>'SeqA', 'cutA'=>'CutA', 'strandA'=>'StrandA', 'seqB'=>'SeqB', 'cutB'=>'CutB', 'strandB'=>'StrandB', 'dist'=>'Dist');
-		$dotdot=array('chr'=>'...', 'cutA'=>'', 'seqA'=>'', 'strandA'=>'', 'cutB'=>'', 'seqB'=>'', 'strandB'=>'', 'dist'=>'');
+		// chr6	ACTTGCAGGTGGTCCGAGTG	31132635	-	AAACTGAGGATGACTGGGTT	31136477	+	3842 bp	0.291573	0.174151
+		$cols=array('chr', 'seqA', 'cutA', 'strandA', 'ef1', 'seqB', 'cutB', 'strandB', 'ef2', 'dist');
+		$header=array('chr'=>'Chr', 'seqA'=>'SeqA', 'cutA'=>'CutA', 'strandA'=>'StrandA', 'ef1'=>'Eff', 'seqB'=>'SeqB', 'cutB'=>'CutB', 'strandB'=>'StrandB', 'ef2'=>'Eff', 'dist'=>'Dist');
+		$dotdot=array('chr'=>'...', 'cutA'=>'', 'seqA'=>'', 'strandA'=>'', 'ef1'=>'', 'cutB'=>'', 'seqB'=>'', 'strandB'=>'', 'ef2'=>'', 'dist'=>'');
 		$parser=function($line) {
 			$data = preg_split("/[\s]+/", $line);
-			return array('chr'=>$data[0], 'cutA'=>$data[1], 'seqA'=>$data[2], 'strandA'=>$data[3], 'cutB'=>$data[4], 'seqB'=>$data[5], 'strandB'=>$data[6], 'dist'=>$data[7]);
+			return array('chr'=>$data[0], 'cutA'=>$data[1], 'seqA'=>$data[2], 'strandA'=>$data[3], 'ef1'=>$data[9], 'cutB'=>$data[4], 'seqB'=>$data[5], 'strandB'=>$data[6], 'ef2'=>$data[10], 'dist'=>$data[7]);
 		};
 		$log="buf/$method.$ref.$chr.$s-$e.w$win.s$step.log";
 		$output="buf/$method.$ref.$chr.$s-$e.w$win.s$step.txt";
