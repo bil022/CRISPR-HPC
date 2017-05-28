@@ -1,3 +1,7 @@
+<style>
+.color0 { background-color: #D3D3D3; }
+.color1 { background-color: #E3E3E3; }
+</style>
   <form ng-submit="go4table()">
   <table>
   <tr>
@@ -44,7 +48,7 @@
 <!-- div ng-hide="help"> Help! </div -->
   <div class="monosp" ng-show="php.table" align="left">
 <table>
-  <tr ng-repeat="x in php.table">
+  <tr ng-repeat="x in php.table" ng-class="'color'+($index%2)">
     <td ng-repeat="y in php.cols">
     {{ x[y] }}
     </td>
